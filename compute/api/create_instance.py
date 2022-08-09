@@ -43,7 +43,7 @@ def list_instances(compute, project, zone):
 def create_instance(compute, project, zone, name, bucket):
     # Get the latest Debian Jessie image.
     image_response = compute.images().getFromFamily(
-        project='debian-cloud', family='debian-9').execute()
+        project='debian-cloud', family='debian-10').execute()
     source_disk_image = image_response['selfLink']
 
     # Configure the machine
@@ -72,7 +72,7 @@ def create_instance(compute, project, zone, name, bucket):
         # Specify a network interface with NAT to access the public
         # internet.
         'networkInterfaces': [{
-            'network': 'global/networks/default',
+            'network': 'global/networks/vpc1',
             'accessConfigs': [
                 {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
             ]
@@ -183,7 +183,7 @@ if __name__ == '__main__':
         'bucket_name', help='Your Google Cloud Storage bucket name.')
     parser.add_argument(
         '--zone',
-        default='us-central1-f',
+        default='europe-west9-a',
         help='Compute Engine zone to deploy to.')
     parser.add_argument(
         '--name', default='demo-instance', help='New instance name.')
